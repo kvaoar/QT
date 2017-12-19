@@ -284,26 +284,6 @@ void ChartClass::mouseMoveEvent(QMouseEvent * event)
     qreal xVal = chartView->chart()->mapToValue(event->pos()).x();
     qreal yVal = chartView->chart()->mapToValue(event->pos()).y();
 
-  /*  qreal maxX = chartView->chart()->axisX()->max();
-    qreal minX = chartView->chart()->axisX()->min();
-    qreal maxY = chartView->chart()->axisY()->max();
-    qreal minY = chartView->chart()->axisY()->min();
-
-    if (xVal <= maxX && xVal >= minX && yVal <= maxY && yVal >= minY)
-    {*/
-        QPointF xPosOnAxis = chartView->chart()->mapToPosition(QPointF(x, 0));
-        QPointF yPosOnAxis = chartView->chart()->mapToPosition(QPointF(0, y));
-
-        /* m_coordX and m_coordY are `QGraphicsSimpleTextItem` */
-        m_coordX->setPos(x, xPosOnAxis.y() + 5);
-        m_coordY->setPos(yPosOnAxis.x() - 27, y);
-
-        /* Displaying value of the mouse on the label */
-        m_coordX->setText(QString("%1").arg(xVal, 4, 'f', 1, '0'));
-        m_coordY->setText(QString("%1").arg(yVal, 4, 'f', 1, '0'));
-   /* }*/
-
-    QGraphicsView::mouseMoveEvent(event);
 }
 
 void ChartClass::updateUI()
