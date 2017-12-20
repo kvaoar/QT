@@ -1,7 +1,8 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef UDP_H
+#define UDP_H
 
 #include <QMainWindow>
+#include <QUdpSocket>
 
 namespace Ui {
 class MainWindow;
@@ -16,12 +17,10 @@ public:
     ~MainWindow();
 
 private slots:
-void on_actionExit_triggered();
-
-void on_actionAddInfo_triggered();
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
 };
 
-#endif // MAINWINDOW_H
+#endif // UDP_H

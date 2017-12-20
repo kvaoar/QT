@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets charts
 
@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    chartclass.cpp
+    glgraph.cpp \
+    datatimestream.cpp
 
 HEADERS += \
         mainwindow.h \
-    chartclass.h
+    glgraph.h \
+    datatimestream.h
 
 FORMS += \
         mainwindow.ui
