@@ -1,0 +1,4 @@
+#ifndef TIMEVALPOINT_H
+#define TIMEVALPOINT_H
+
+#endif // TIMEVALPOINT_H
