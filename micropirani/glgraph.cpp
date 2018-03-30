@@ -1,98 +1,203 @@
 #include "glgraph.h"
 
 
+/**
+ * @brief GlGraph::data_init
+ * Creating dynamic objects with correct default state
+ */
 void GlGraph::data_init(){
-   //
-   // win_size = new QSize(0,0);
 
+
+    time_steps.addItems(QStringList{"1","5","15","30","60"});
+    time_steps.setCurrentIndex(0);
+    ax_x = new Axis(this,-10.0*minute,0.0,minute,false);
+    ax_y = new Axis(this,1.0e-5,1.0e+3,1.0e+1,true);
+    cursor_storage = new CursorStorage(this, ax_x, &win_size);
+  /*  timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start(100);*/
 }
 
-
-GlGraph::GlGraph():QOpenGLWidget()
-{
- //  data_init();
-}
-
+/**
+ * @brief GlGraph::GlGraph
+ * Constructor call data_init to create dynamic objects and then
+ * init OpenGL and switch on mouse tracking
+ * @param parent - main window pointer
+ */
 GlGraph::GlGraph(QWidget* parent):QOpenGLWidget(parent)
 {
-   data_init();
-   setFormat(QSurfaceFormat::defaultFormat()); // Двойная буферизация
+  data_init();
+  setFormat(QSurfaceFormat::defaultFormat()); // Двойная буферизация
   glDepthFunc(GL_LEQUAL); // Буфер глубины
-
-
   setMouseTracking(true);
 }
 
-
-void GlGraph::setPoints(QList<QPointF> p)
+/**
+ * @brief GlGraph::~GlGraph
+ * Destructor call delete for all dynamic objects
+ */
+GlGraph::~GlGraph()
 {
- points.clear();
- qDebug()<<p.size();
- points.append(p);
- qDebug()<<points.size();
- update();
-  //  points = p;
+    delete ax_x;
+    delete ax_y;
+   // delete timer;
 }
 
-QList<QPointF> GlGraph::getPoints()
-{
-    return points;//points;
+
+
+/**
+ * @brief GlGraph::vscreen_to_win
+ * Convert point from virtual coordinates of data (physical dimensions)
+ * to pixel coordinates of QOpenGLWidget screen where left bottom always (0,0).
+ * @param p - point in vscreen coordinates
+ * @return point in pixel window coordinates
+ */
+QPointF GlGraph::vscreen_to_win(QPointF p){
+QPointF res;
+    res.setX(((p.x()-vscreen.x())/vscreen.width())*win_size.width());
+    res.setY(((p.y()-vscreen.y())/vscreen.height())*win_size.height());
+    return res;
 }
 
+/**
+ * @brief GlGraph::win_to_vscreen
+ * Convert points from pixel coordinates of QOpenGLWidget screen where left
+ * bottom always (0,0) to virtual coordinates of data (physical dimensions)
+ * @param p - point in in pixel window coordinates
+ * @return point in vscreen coordinates
+ */
+QPointF GlGraph::win_to_vscreen(QPointF p){
+    QPointF res;
+    res.setX(((p.x()/win_size.width())*vscreen.width())+vscreen.x());
+    res.setY(((p.y()/win_size.height())*vscreen.height())+vscreen.y());
+    return res;
+}
+
+/**
+ * @brief GlGraph::refresh_data
+ * This slot recieve pointer of new data list every time when data will be
+ * updated. Practically it the same pointer, but on this event widget can
+ * refresh picture, if regular refreshing disabled.
+ * @param pt - data list pointer
+ */
+void GlGraph::refresh_data(QList<TimeValPoint>* pt){
+    points = pt;
+    if(data_exist())
+        update();
+}
+
+void GlGraph::set_ax_y_lin(bool is_lin)
+{
+    ax_y->set_lin(is_lin);
+    if(is_lin){
+
+        float max = ax_y->get_range_max();
+        float min = ax_y->get_range_min();
+        int exp_max = rint(ceil(log10(max)));
+        float p_max = pow(10,exp_max);
+        float p_step = p_max / 10.0;
+
+        min = 0;
+    ax_y->set_max(p_max);
+    ax_y->set_min(min);
+    ax_y->set_step(p_step);
+    }else{
+        ax_y->set_max(1e+3);
+        ax_y->set_min(1e-5);
+        ax_y->set_step(1.0e+1);
+    }
+    ax_y->generate_labels();
+update();
+
+}
+
+CursorStorage *GlGraph::get_curlist()
+{
+    return cursor_storage;
+}
 
 
 void  GlGraph::initializeGL()
 {
-    qDebug()<<"width = "<<width()<<" height = "<<height();
     win_size.setWidth(width());
     win_size.setHeight(height());
-    //qglClearColor(Qt::black); // Черный цвет фона
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфер изображения и буфер глубины
-
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_MULTISAMPLE);
 }
 
 void  GlGraph::resizeGL(int w, int h)
 {
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glViewport((GLint)0, (GLint)0, (GLint)w, (GLint)h);
-
     win_size.setWidth(w);
     win_size.setHeight(h);
+    glViewport((GLint)0, (GLint)0, (GLint)w, (GLint)h);
 }
 
 void  GlGraph::paintGL()
 {
 
+    QPainter painter;
+   painter.begin(this);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing);
+
+
+    painter.beginNativePainting();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // чистим буфер изображения и буфер глубины
-
-    self_axis();
-
     glMatrixMode(GL_PROJECTION); // устанавливаем матрицу
+ //   glPushMatrix();
     glLoadIdentity(); // загружаем матрицу
-    glOrtho(0,400,400,0,1,0); // подготавливаем плоскости для матрицы
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    //qglColor(Qt::white);
+    vscreen.setLeft(ax_x->min());
+    vscreen.setRight(ax_x->max());
+    vscreen.setBottom(ax_y->min());
+    vscreen.setTop(ax_y->max());
+
+    glOrtho(vscreen.left(),vscreen.right(),vscreen.bottom(),vscreen.top(),1,0); // подготавливаем плоскости для матрицы
+    //glEnable(GL_BLEND);
+   // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //график
     glColor3f(1,0,0);
-
-    //renderText(10, 10 , 0, QString::fromUtf8("Len %1").arg(points->length()), QFont() );
-
-    glBegin(GL_LINE_STRIP);
-    for(int i = 0; i < points.size(); i++) glVertex2d(points.at(i).x(),points.at(i).y());
-    glEnd();
+if(data_exist()){
 
 
-    glScalef(win_size.width()*0.001,win_size.height()*0.001,1.0);
+        qint64 utc_abs_now = points->last().t;
+        glBegin(GL_LINE_STRIP);
+        ax_y->range_start();
+        cursor_storage->start_scan(utc_abs_now,win_to_vscreen(QPointF(mouse_pos.x(),mouse_pos.y())).x());
+        for(int i = points->size()-1; i > 0; i--) {
+            float ptim = (points->at(i).t - utc_abs_now);
+            if(!ax_x->is_ovf(ptim)){
+                if(!ax_x->is_unf(ptim)){
+                float val = ax_y->val_to_scale(points->at(i).f);
+                ax_y->range(points->at(i).f);
+                cursor_storage->process_scan(points->at(i));
+                glVertex2d(ptim,val);
+                }else {
+                    i = 0;
+                }
+            }
+        }
+        ax_y->range_end();
+        cursor_storage->stop_scan();
+}
+        glEnd();
+      glScalef((1.0*win_size.width())/(vscreen.width()),win_size.height()/(vscreen.height()),1.0);
+//glPopMatrix();
+    //надписи
 
-
-        if(under_mouse) self_cursor();
+       painter.endNativePainting();
+       //painter.setRenderHint(QPainter::TextAntialiasing);
+        plot_axis(&painter);
+        if(under_mouse) plot_mouse(&painter);
+        plot_cursors(&painter);
+        painter.end();
 
 
 }
+
+
+
 
 void GlGraph::keyPressEvent(QKeyEvent *ke)
 {
@@ -112,8 +217,41 @@ void GlGraph::mouseMoveEvent(QMouseEvent *me)
     // Получаем координаты курсора
     mouse_pos = me->pos();
     under_mouse = true;
+
     update();
-    //updateGL();
+
+}
+
+void GlGraph::wheelEvent(QWheelEvent *me)
+{
+
+   // if(QApplication::keyboardModifiers().testFlag(Qt::ControlModifier)){
+        const int d = me->delta() / (8*15);
+
+        if(ax_x->max()+d*ax_x->step() <= 0)
+            ax_x->offset_range(d*ax_x->step());
+   // }
+
+    if(QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier)){
+        const int d = me->delta() / (8*15);
+        if(d>0){
+            if(time_steps.currentIndex()+d < time_steps.count()){
+                time_steps.setCurrentIndex(time_steps.currentIndex()+d);
+            }
+        }else{
+            if(time_steps.currentIndex()+d >= 0){
+                time_steps.setCurrentIndex(time_steps.currentIndex()+d);
+            }
+          }
+
+        ax_x->set_min(ax_x->max() - 10.0*time_steps.currentText().toFloat()*minute);
+        ax_x->set_step(minute*time_steps.currentText().toFloat());
+
+    }
+
+
+
+    update();
 }
 
 void GlGraph::leaveEvent(QEvent *me)
@@ -124,97 +262,137 @@ void GlGraph::leaveEvent(QEvent *me)
 
 void GlGraph::mousePressEvent(QMouseEvent *me)
 {
-  /*  // При нажатии левой кнопки мыши определяем попали мы в гуся или нет?
-    if(me->button()==Qt::LeftButton){
-        if(me->x()>gdx&&me->x()<gdx+geese_size){
-            if(me->y()>gdy&&me->y()<gdy+geese_size){
-                point++;
-                geese_coord();
-            }
-        }
-    }
 
-    // Если была нажата левая кнопка мыши, получаем начальные координаты выделения
+    //(QApplication::keyboardModifiers().testFlag(Qt::ControlModifier))?
     if(me->button()==Qt::LeftButton){
-        singling=true;
-        cbx=me->x();
-        cby=me->y();
-        updateGL();
-    } else {
-        singling=false;
+        if(data_exist()){
+            cursor_storage->add(mouse_pos,!(QApplication::keyboardModifiers().testFlag(Qt::ControlModifier)));
+        }
+       update();
     }
-    updateGL();*/
+    if(me->button()==Qt::RightButton){
+        if(data_exist()){
+            cursor_storage->del(mouse_pos);
+        }
+       update();
+
+    }
 }
 
 void GlGraph::mouseReleaseEvent(QMouseEvent *me)
 {
-    // Если отпускаем левую кнопку мыши - удалить выделение
-  /*  if(singling==true&&me->button()==Qt::LeftButton){
-        singling=false;
+
+    if(me->button()==Qt::LeftButton){
+
     }
-    updateGL();*/
 }
 
-void GlGraph::self_cursor()
+
+
+bool GlGraph::data_exist()
 {
-    glMatrixMode(GL_PROJECTION); // устанавливаем матрицу
-    glLoadIdentity(); // загружаем матрицу
-    glOrtho(0,win_size.width(),win_size.height(),0,1,0); // подготавливаем плоскости для матрицы
-
-
-        glColor3f(1,1,1);// Цвет курсора
-        // Координаты курсора
-        float x = mouse_pos.x();
-        float y = mouse_pos.y();
-
-        glBegin(GL_LINES);
-        glVertex2d(x-10,y);
-        glVertex2d(x+10,y);
-        glVertex2d(x,y-10);
-        glVertex2d(x,y+10);
-        glEnd();
+    if(points != NULL)
+        if(points->size()>2)
+            return true;
+    return false;
 }
 
-void GlGraph::self_axis()
+void GlGraph::plot_mouse(QPainter *painter)
 {
-    glMatrixMode(GL_PROJECTION); // устанавливаем матрицу
-    glLoadIdentity(); // загружаем матрицу
-    glOrtho(0,win_size.width(),win_size.height(),0,1,0); // подготавливаем плоскости для матрицы
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    QPainter painter(this);
-    painter.setPen(Qt::white);
-    painter.setFont(QFont("Arial", 16));
+    if((data_exist())&&(cursor_storage->mouse->is_found)){
 
-        glColor3f(0.1,0.1,0.1);
+        QFont mouse_cursor_font("Arial", 14, QFont::Bold);
+        painter->setPen(QColor(255,255,255,200));
+        painter->setBrush(QColor(255,255,255,200));
+        painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
+        painter->setFont(mouse_cursor_font);
 
-        int hline_count = 10;
-        float h_step = win_size.width()/hline_count;
+        qint64 utc_abs_now = points->last().t;
+            TimeValPoint p = cursor_storage->mouse->p;
+            QPointF screen_data_p = vscreen_to_win(QPointF(p.t-utc_abs_now,ax_y->val_to_scale(p.f)));
 
-        int wline_count = 10;
-        float w_step = win_size.height()/wline_count;
+            painter->drawLine(mouse_pos.x(),win_size.height(),mouse_pos.x(), 0);
+            painter->drawLine(screen_data_p-QPointF(-10,0),screen_data_p-QPointF(+10,0));
+            painter->drawLine(screen_data_p-QPointF(0,-10),screen_data_p-QPointF(0,+10));
+                //надписи
 
-        glBegin(GL_LINES);
-        for(int i = 0; i <hline_count; i++){
-        glVertex2d(i*h_step,1);
-        glVertex2d(i*h_step,win_size.height()-1);
+
+            QString info;
+            info.sprintf("%3.2e", p.f);
+            painter->drawText(QPointF(mouse_pos.x(),mouse_pos.y()), info);
+
+    } else{
+        painter->drawLine(mouse_pos-QPointF(-10,0),mouse_pos-QPointF(+10,0));
+        painter->drawLine(mouse_pos-QPointF(0,-10),mouse_pos-QPointF(0,+10));
+    }
+}
+
+void GlGraph::plot_cursors(QPainter *painter)
+{
+
+    QFont cursor_font("Arial", 12, QFont::Bold);
+    painter->setFont(cursor_font);
+        painter->setBrush(QColor(255,255,255,200));
+        painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+if(!data_exist()) return;
+if(underMouse())
+    painter->setPen(QColor(200,200,0,255));
+ else
+    painter->setPen(QColor(200,200,100,150));
+
+qint64 utc_abs_now = points->last().t;
+        foreach (Cursor* c, cursor_storage->cur) {
+                if(c->is_abs){
+                    if(c->is_found){
+                    painter->drawLine(vscreen_to_win(QPointF(c->p.t-utc_abs_now , ax_y->val_to_scale( c->p.f))),
+                                     vscreen_to_win(QPointF(c->p.t-utc_abs_now, ax_y->min())));
+
+                    QString info;
+                    info.sprintf("%3.2e", c->p.f);
+                    painter->drawText(vscreen_to_win(QPointF(c->p.t-utc_abs_now , ax_y->val_to_scale( c->p.f))), info);
+                } else{
+                    painter->drawLine(c->win_pos(),win_size.height(),c->win_pos(),0);
+                }
+            }else{
+            painter->drawLine(vscreen_to_win(QPointF(c->time_axis_pos, ax_y->val_to_scale( c->p.f))),
+                             vscreen_to_win(QPointF(c->time_axis_pos, ax_y->min())));
+
+            QString info;
+            info.sprintf("%3.2e", c->p.f);
+            painter->drawText(vscreen_to_win(QPointF(c->time_axis_pos, ax_y->val_to_scale( c->p.f))), info);
+            }
         }
 
-        for(int i = 0; i <wline_count; i++){
-        glVertex2d(1,i*w_step);
-        glVertex2d(win_size.width()-1,i*w_step);
-
-        }
-        glEnd();
-
-        for(int i = 0; i <hline_count; i++)
-            painter.drawText(i*h_step, 1, 40, 40, Qt::AlignCenter, QString::fromUtf8("%1").arg(i));
-        for(int i = 0; i <wline_count; i++)
-            painter.drawText(1, i*w_step, 40, 40, Qt::AlignCenter, QString::fromUtf8("%1").arg(i));
-        painter.end();
 
 }
+
+void GlGraph::plot_axis(QPainter *painter)
+{
+
+    QFont label_font("Arial", 12, QFont::Bold);
+    painter->setPen(QColor(255,255,255,100));
+    painter->setBrush(QColor(255,255,255,100));
+    painter->setFont(label_font);
+    painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+
+for(QList<AxeLabel>::const_iterator i = ax_y->get_labels()->begin(); i != ax_y->get_labels()->end(); ++i){
+    painter->drawLine(vscreen_to_win(QPointF(ax_x->min(),i->val)),vscreen_to_win(QPointF(ax_x->max(),i->val)));
+    painter->drawText(vscreen_to_win(QPointF(ax_x->min(),i->val))+ QPointF(0,-QFontMetrics(label_font).height())/2 ,i->text);
+    }
+
+for(QList<AxeLabel>::const_iterator i = ax_x->get_labels()->begin(); i != ax_x->get_labels()->end(); ++i){
+    int m = fabs((i->val)/minute);
+    QString t_label; t_label.sprintf("%d:%d",m/60, m%60);
+    painter->drawLine(vscreen_to_win(QPointF(i->val,ax_y->min())),vscreen_to_win(QPointF(i->val,ax_y->max())));
+    painter->drawText(vscreen_to_win(QPointF(i->val,ax_y->min()))+ QPointF(-4,0) ,t_label);
+
+   }
+}
+
+
 
 

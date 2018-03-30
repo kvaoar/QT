@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT       += core gui qml quick quickwidgets opengl network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets charts
 
@@ -27,16 +27,33 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     glgraph.cpp \
-    datatimestream.cpp
+    myudp.cpp \
+    ftstream.cpp \
+    axis.cpp \
+    parser.cpp \
+    torr.cpp \
+    cursorstorage.cpp \
+    cursor.cpp
 
 HEADERS += \
         mainwindow.h \
     glgraph.h \
-    datatimestream.h
+    myudp.h \
+    timevalpoint.h \
+    ftstream.h \
+    axislabel.h \
+    axis.h \
+    parser.h \
+    torr.h \
+    cursorstorage.h \
+    cursor.h
 
 FORMS += \
         mainwindow.ui
 
 CONFIG += mobility
 MOBILITY = 
+
+RESOURCES += \
+    res.qrc
 
