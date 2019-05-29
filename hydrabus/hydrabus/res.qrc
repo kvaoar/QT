@@ -1,2 +1,87 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/">
+        <file>res/ALIGN LEFT.svg</file>
+        <file>res/ALIGN MIDDLE.svg</file>
+        <file>res/ALIGN RIGHT.svg</file>
+        <file>res/ARROW.svg</file>
+        <file>res/BATTERY.svg</file>
+        <file>res/BELL.svg</file>
+        <file>res/BLANK.svg</file>
+        <file>res/BLUETOOTH.svg</file>
+        <file>res/BROWSER.svg</file>
+        <file>res/CAMERA.svg</file>
+        <file>res/CART.svg</file>
+        <file>res/CHAT.svg</file>
+        <file>res/CHECK MARK.svg</file>
+        <file>res/CLOCK.svg</file>
+        <file>res/CLOSE.svg</file>
+        <file>res/COCKTAIL.svg</file>
+        <file>res/COMPASS.svg</file>
+        <file>res/CONNECTION.svg</file>
+        <file>res/CURSOR.svg</file>
+        <file>res/DISPLAY.svg</file>
+        <file>res/DOWNLOAD.svg</file>
+        <file>res/DROP.svg</file>
+        <file>res/EMPTY BLANK.svg</file>
+        <file>res/FLAG.svg</file>
+        <file>res/FORWARD 2.svg</file>
+        <file>res/FORWARD.svg</file>
+        <file>res/GIFT.svg</file>
+        <file>res/GRAPHIC.svg</file>
+        <file>res/GRID.svg</file>
+        <file>res/HAMBURGER MENU.svg</file>
+        <file>res/HEADPHONES.svg</file>
+        <file>res/HEART.svg</file>
+        <file>res/HOME.svg</file>
+        <file>res/HYPERLINK.svg</file>
+        <file>res/JUSTIFY ALL.svg</file>
+        <file>res/KEY.svg</file>
+        <file>res/LABEL.svg</file>
+        <file>res/LAUNCH.svg</file>
+        <file>res/Lin.svg</file>
+        <file>res/LOCK CLOSED.svg</file>
+        <file>res/LOCK OPEN.svg</file>
+        <file>res/Log.svg</file>
+        <file>res/MAGNET.svg</file>
+        <file>res/MAGNIFYING GLASS 2.svg</file>
+        <file>res/MAGNIFYING GLASS MINUS.svg</file>
+        <file>res/MAGNIFYING GLASS PLUS.svg</file>
+        <file>res/MAGNIFYING GLASS.svg</file>
+        <file>res/MAIL.svg</file>
+        <file>res/MAP PIN.svg</file>
+        <file>res/MAP.svg</file>
+        <file>res/MAXIMIZE.svg</file>
+        <file>res/MICROPHONE.svg</file>
+        <file>res/MINIMIZE.svg</file>
+        <file>res/MINUS.svg</file>
+        <file>res/MOUSE.svg</file>
+        <file>res/MUSIC.svg</file>
+        <file>res/NAVIGATION.svg</file>
+        <file>res/NOTIFICATIONS.svg</file>
+        <file>res/PAUSE.svg</file>
+        <file>res/PENCIL.svg</file>
+        <file>res/PLAY.svg</file>
+        <file>res/PLUS.svg</file>
+        <file>res/POWER.svg</file>
+        <file>res/PRINT.svg</file>
+        <file>res/REPEAT.svg</file>
+        <file>res/RULE.svg</file>
+        <file>res/SELECTION.svg</file>
+        <file>res/SETTINGS.svg</file>
+        <file>res/SHARE.svg</file>
+        <file>res/SHUFFLE.svg</file>
+        <file>res/SOUND MINUS.svg</file>
+        <file>res/SOUND PLUS.svg</file>
+        <file>res/SPEAKER.svg</file>
+        <file>res/STAR.svg</file>
+        <file>res/STATISTICS.svg</file>
+        <file>res/STOP.svg</file>
+        <file>res/SUN.svg</file>
+        <file>res/TRASH BIN.svg</file>
+        <file>res/UMBRELLA.svg</file>
+        <file>res/UPLOAD.svg</file>
+        <file>res/VIDEO CAMERA.svg</file>
+        <file>res/WIFI.svg</file>
+        <file>res/index.png</file>
+    </qresource>
+</RCC>

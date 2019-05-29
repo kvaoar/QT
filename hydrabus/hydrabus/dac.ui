@@ -1,21 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>DAC</class>
  <widget class="QWidget" name="DAC">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>623</width>
     <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>605</width>
+        <height>219</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Usage: dac &lt;dac1/dac2&gt; &lt;raw (0 to 4095)/volt (0 to 3.3V)/triangle/noise&gt; [exit]
+   help           DAC1, DAC2 (12bits DAC 0 to 4095/3.3V)
+   dac1           DAC1 (PA4 used by ULED)
+   dac2           DAC2 (PA5)
+   raw            Raw value &lt;0 to 4095&gt;
+   volt           Volt &lt;0 to 3.3v&gt;
+   triangle       Triangle output (5Hz and amplitude 3.3V)
+   noise          Noise output (amplitude 3.3V)
+   exit           Exit DAC mode (reinit DAC1&amp;2 pins to safe mode/in)
+</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QWidget" name="dev1" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QComboBox" name="cMode">
+           <item>
+            <property name="text">
+             <string>raw</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>volt</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>triangle</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>noise</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="sRaw"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="sVolt"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="bStart">
+           <property name="text">
+            <string>START</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="dev2" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QComboBox" name="cMode_2">
+           <item>
+            <property name="text">
+             <string>raw</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>volt</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>triangle</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>noise</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="sRaw_2"/>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="sVolt_2"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="bStart_2">
+           <property name="text">
+            <string>START</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
  </widget>
- <pixmapfunction/>
- <connections/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>bStart</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>DAC</receiver>
+   <slot>connect1(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>260</x>
+     <y>262</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>311</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bStart_2</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>DAC</receiver>
+   <slot>connect2(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>558</x>
+     <y>262</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>311</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cMode</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>DAC</receiver>
+   <slot>sw_mod1(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>61</x>
+     <y>262</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>311</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cMode_2</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>DAC</receiver>
+   <slot>sw_mod2(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>359</x>
+     <y>262</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>311</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>connect1(bool)</slot>
+  <slot>sw_mod1(int)</slot>
+  <slot>connect2(bool)</slot>
+  <slot>sw_mod2(int)</slot>
+ </slots>
 </ui>

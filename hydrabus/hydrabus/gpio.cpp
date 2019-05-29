@@ -12,3 +12,15 @@ GPIO::~GPIO()
 {
   delete ui;
 }
+
+void GPIO::setSerial(SerialService *value)
+{
+  if(value != nullptr){
+      serial = value;
+      connect(this,&GPIO::sendStrCon,serial,&SerialService::serial_send);
+    }
+}
+
+void GPIO::recieveLine(QString s){
+
+};

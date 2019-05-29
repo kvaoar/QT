@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui qml quick quickwidgets serialport charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,19 +22,60 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++11
+CONFIG += c++17
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    portselect.cpp \
+    mcmdline.cpp \
+    console.cpp \
+    serialservice.cpp \
+    pwm.cpp \
+    adc.cpp \
+    gpio.cpp \
+    i2c.cpp \
+    uart.cpp \
+    jtag.cpp \
+    spi.cpp \
+    iinterface.cpp \
+    dac.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    portselect.h \
+    mcmdline.h \
+    console.h \
+    serialservice.h \
+    pwm.h \
+    adc.h \
+    gpio.h \
+    i2c.h \
+    uart.h \
+    jtag.h \
+    spi.h \
+    iinterface.h \
+    dac.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    portselect.ui \
+    console.ui \
+    pwm.ui \
+    adc.ui \
+    dac.ui \
+    gpio.ui \
+    i2c.ui \
+    uart.ui \
+    jtag.ui \
+    spi.ui \
+    iinterface.ui \
+    dac.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    res.qrc

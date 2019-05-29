@@ -12,3 +12,16 @@ UART::~UART()
 {
   delete ui;
 }
+
+void UART::setSerial(SerialService *value)
+{
+  if(value != nullptr){
+      serial = value;
+      connect(this,&UART::sendStrCon,serial,&SerialService::serial_send);
+    }
+}
+
+void UART::recieveLine(QString s)
+{
+
+}
