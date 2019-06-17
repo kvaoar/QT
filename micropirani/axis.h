@@ -1,6 +1,7 @@
 #ifndef AXIS_H
 #define AXIS_H
 #include"axislabel.h"
+#include<cmath>
 #include <QObject>
 
 class Axis : public QObject
