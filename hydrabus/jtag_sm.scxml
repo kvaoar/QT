@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" binding="early" name="jtag_sm" qt:editorversion="4.8.1" xmlns:qt="http://www.qt.io/2015/02/scxml-ext" initial="TEST_LOGIC_RESET">
+    <qt:editorinfo initialGeometry="130.76;63.58;-20;-20;40;40"/>
+    <state id="TEST_LOGIC_RESET">
+        <qt:editorinfo scenegeometry="155.32;201.72;0.26;151.72;261;100" geometry="155.32;201.72;-155.06;-50;261;100"/>
+        <transition type="external" event="LOW" target="RUN_TEST_IDLE"/>
+        <transition type="external" event="HI" target="TEST_LOGIC_RESET"/>
+    </state>
+    <state id="RUN_TEST_IDLE">
+        <qt:editorinfo scenegeometry="155.84;342.31;0.78;292.31;259.97;100" geometry="155.84;342.31;-155.06;-50;259.97;100"/>
+        <transition type="external" event="HI" target="SELECT_DR_SCAN">
+            <qt:editorinfo movePoint="-95.17;10.25"/>
+        </transition>
+        <transition type="external" event="LOW" target="RUN_TEST_IDLE"/>
+    </state>
+    <state id="SELECT_DR_SCAN">
+        <qt:editorinfo scenegeometry="563.24;340.85;486.30;290.85;174;100" geometry="563.24;340.85;-76.94;-50;174;100"/>
+        <transition type="external" event="LOW" target="CAPTURE_DR">
+            <qt:editorinfo endTargetFactors="49.41;9.84"/>
+        </transition>
+        <transition type="external" event="HI" target="SELECT_IR_SCAN">
+            <qt:editorinfo endTargetFactors="7.65;48.87" movePoint="-120.06;11.71"/>
+        </transition>
+    </state>
+    <state id="CAPTURE_DR">
+        <qt:editorinfo scenegeometry="524.15;482.13;494.25;432.13;158.11;100" geometry="524.15;482.13;-29.90;-50;158.11;100"/>
+        <transition type="external" event="LOW" target="SHIFT_DR">
+            <qt:editorinfo endTargetFactors="51;11.41"/>
+        </transition>
+        <transition type="external" event="HI" target="EXIT1_DR">
+            <qt:editorinfo movePoint="125;-124" localGeometry="-221.03;0.03;-221.03;282.40"/>
+        </transition>
+    </state>
+    <state id="SHIFT_DR">
+        <qt:editorinfo scenegeometry="588.32;630.31;433.26;580.31;280.09;100" geometry="588.32;630.31;-155.06;-50;280.09;100"/>
+        <transition type="external" event="LOW" target="SHIFT_DR">
+            <qt:editorinfo endTargetFactors="12.40;47.61"/>
+        </transition>
+        <transition type="external" event="HI" target="EXIT1_DR">
+            <qt:editorinfo movePoint="11.82;3.64"/>
+        </transition>
+    </state>
+    <state id="EXIT1_DR">
+        <qt:editorinfo scenegeometry="547.28;764.50;487.28;714.50;172.05;100" geometry="547.28;764.50;-60;-50;172.05;100"/>
+        <transition type="external" event="LOW" target="PAUSE_DR">
+            <qt:editorinfo movePoint="19.09;6.36"/>
+        </transition>
+        <transition type="external" event="HI" target="UPDATE_DR">
+            <qt:editorinfo movePoint="-27.82;-172.76" localGeometry="141.18;-0.06;141.18;381.94"/>
+        </transition>
+    </state>
+    <state id="PAUSE_DR">
+        <qt:editorinfo scenegeometry="604.38;904.27;449.32;854.27;247.96;100" geometry="604.38;904.27;-155.06;-50;247.96;100"/>
+        <transition type="external" event="HI" target="EXIT2_DR">
+            <qt:editorinfo startTargetFactors="49;88.70" movePoint="9.09;3.64"/>
+        </transition>
+        <transition type="external" event="LOW" target="PAUSE_DR"/>
+    </state>
+    <state id="EXIT2_DR">
+        <qt:editorinfo scenegeometry="573.30;1025.54;513.30;975.54;120;100" geometry="573.30;1025.54;-60;-50;120;100"/>
+        <transition type="external" event="HI" target="UPDATE_DR">
+            <qt:editorinfo startTargetFactors="49.55;88.28" movePoint="7.27;3.64"/>
+        </transition>
+        <transition type="external" event="LOW" target="SHIFT_DR">
+            <qt:editorinfo movePoint="152;194" localGeometry="-190.97;0.02;-190.97;-395.82"/>
+        </transition>
+    </state>
+    <state id="UPDATE_DR">
+        <qt:editorinfo scenegeometry="573.30;1145.54;513.30;1095.54;120;100" geometry="573.30;1145.54;-60;-50;120;100"/>
+        <transition type="external" event="HI" target="SELECT_DR_SCAN">
+            <qt:editorinfo endTargetFactors="7.32;68.97" movePoint="230.35;390.35" localGeometry="-258.31;0;-258.31;-785.48"/>
+        </transition>
+        <transition type="external" event="LOW" target="RUN_TEST_IDLE">
+            <qt:editorinfo movePoint="199.41;-126.81" localGeometry="0;165.62;-442.54;165.62"/>
+        </transition>
+    </state>
+    <state id="SELECT_IR_SCAN">
+        <qt:editorinfo scenegeometry="998.36;340.85;938.36;290.85;180;100" geometry="998.36;340.85;-60;-50;180;100"/>
+        <transition type="external" event="LOW" target="CAPTURE_IR"/>
+        <transition type="external" event="HI" target="TEST_LOGIC_RESET">
+            <qt:editorinfo endTargetFactors="81.02;50.28" movePoint="-64.42;55.64" localGeometry="219.05;0;219.05;-138.53"/>
+        </transition>
+    </state>
+    <state id="CAPTURE_IR">
+        <qt:editorinfo scenegeometry="1028.36;482.13;968.36;432.13;120;100" geometry="1028.36;482.13;-60;-50;120;100"/>
+        <transition type="external" event="LOW" target="SHIFT_IR"/>
+        <transition type="external" event="HI" target="EXIT1_IR">
+            <qt:editorinfo movePoint="92.24;-147.87" localGeometry="-186.50;0;-186.50;282.73"/>
+        </transition>
+    </state>
+    <state id="SHIFT_IR">
+        <qt:editorinfo scenegeometry="1075.89;630.31;920.83;580.31;215.06;100" geometry="1075.89;630.31;-155.06;-50;215.06;100"/>
+        <transition type="external" event="LOW" target="SHIFT_IR"/>
+        <transition type="external" event="HI" target="EXIT1_IR"/>
+    </state>
+    <state id="EXIT1_IR">
+        <qt:editorinfo scenegeometry="1028.36;764.50;968.36;714.50;120;100" geometry="1028.36;764.50;-60;-50;120;100"/>
+        <transition type="external" event="LOW" target="PAUSE_IR">
+            <qt:editorinfo movePoint="-5.85;1.47"/>
+        </transition>
+        <transition type="external" event="HI" target="UPDATE_IR">
+            <qt:editorinfo movePoint="-102.49;-171.30" localGeometry="192.70;0;192.70;382.12"/>
+        </transition>
+    </state>
+    <state id="PAUSE_IR">
+        <qt:editorinfo scenegeometry="1076.39;904.27;920.33;854.27;216.06;100" geometry="1076.39;904.27;-156.06;-50;216.06;100"/>
+        <transition type="external" event="LOW" target="PAUSE_IR">
+            <qt:editorinfo endTargetFactors="25.74;59.72"/>
+        </transition>
+        <transition type="external" event="HI" target="EXIT2_IR"/>
+    </state>
+    <state id="EXIT2_IR">
+        <qt:editorinfo scenegeometry="1028.36;1025.54;968.36;975.54;120;100" geometry="1028.36;1025.54;-60;-50;120;100"/>
+        <transition type="external" event="HI" target="UPDATE_IR"/>
+        <transition type="external" event="LOW" target="SHIFT_IR">
+            <qt:editorinfo movePoint="75.61;186.60" localGeometry="-144.04;-0.03;-144.04;-393.68"/>
+        </transition>
+    </state>
+    <state id="UPDATE_IR">
+        <qt:editorinfo scenegeometry="1028.36;1145.54;968.36;1095.54;120;100" geometry="1028.36;1145.54;-60;-50;120;100"/>
+        <transition type="external" event="LOW" target="RUN_TEST_IDLE">
+            <qt:editorinfo endTargetFactors="27.37;83.32" movePoint="439.21;-131.89" localGeometry="0;188.45;-956.43;188.45"/>
+        </transition>
+        <transition type="external" event="HI" target="SELECT_DR_SCAN">
+            <qt:editorinfo endTargetFactors="7.24;57.82" movePoint="341.01;-132.49" localGeometry="-92.18;0;-92.18;105.18;-739.67;105.18;-739.67;-796.71"/>
+        </transition>
+    </state>
+</scxml>

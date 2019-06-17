@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>I2C</class>
+ <widget class="QWidget" name="I2C">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>620</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QScrollArea" name="help">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>589</width>
+        <height>700</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Configuration: i2c [pull (up/down/floating)] [frequency (value hz/khz/mhz)]&lt;/p&gt;&lt;p&gt;Interaction: [&amp;lt;start&amp;gt;] [&amp;lt;stop&amp;gt;] &amp;lt;read/write (value:repeat)&amp;gt;&lt;/p&gt;&lt;p&gt;   pull           GPIO pull (up/down/floating)&lt;/p&gt;&lt;p&gt;   frequency      Bus frequency&lt;/p&gt;&lt;p&gt;   show           Show I2C parameters&lt;/p&gt;&lt;p&gt;   pull           GPIO pull (up/down/floating)&lt;/p&gt;&lt;p&gt;   frequency      Bus frequency&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;   scan           Scan for connected devices&lt;/p&gt;&lt;p&gt;   start          Start&lt;/p&gt;&lt;p&gt;   stop           Stop&lt;/p&gt;&lt;p&gt;   read           Read byte (repeat with :&amp;lt;num&amp;gt;)&lt;/p&gt;&lt;p&gt;   hd             Read byte (repeat with :&amp;lt;num&amp;gt;) and print hexdump&lt;/p&gt;&lt;p&gt;   write          Write byte (repeat with :&amp;lt;num&amp;gt;)&lt;/p&gt;&lt;p&gt;   &amp;lt;integer&amp;gt;      Write byte (repeat with :&amp;lt;num&amp;gt;)&lt;/p&gt;&lt;p&gt;   &amp;lt;string&amp;gt;       Write string&lt;/p&gt;&lt;p&gt;   [              Alias for &amp;quot;start&amp;quot;&lt;/p&gt;&lt;p&gt;   ]              Alias for &amp;quot;stop&amp;quot;&lt;/p&gt;&lt;p&gt;   &amp;amp;              Delay 1 usec (repeat with :&amp;lt;num&amp;gt;)&lt;/p&gt;&lt;p&gt;   %              Delay 1 msec (repeat with :&amp;lt;num&amp;gt;)&lt;/p&gt;&lt;p&gt;   ~              Write a random byte (repeat with :&amp;lt;num&amp;gt;)&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="pconnect" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>pull</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cPull">
+        <item>
+         <property name="text">
+          <string>up</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>float</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>down</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>freq</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cFreq">
+        <item>
+         <property name="text">
+          <string>50000</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>100000</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>400000</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>1000000</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bConnect">
+        <property name="text">
+         <string>CONNECT</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="pcmd" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="bPinout">
+        <property name="text">
+         <string>PIN</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bScan">
+        <property name="text">
+         <string>SCAN</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bStartStop">
+        <property name="text">
+         <string>START/STOP</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bRead">
+        <property name="text">
+         <string>READ</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="eRead"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bWrite">
+        <property name="text">
+         <string>WRITE</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="eWrite"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="ptransact" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QCheckBox" name="cStartStop">
+        <property name="text">
+         <string>Start/Stop</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="eAddr">
+        <property name="placeholderText">
+         <string>0x55</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="eData">
+        <property name="placeholderText">
+         <string>0x83</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="sDataCnt">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="value">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="eTrCmd">
+        <property name="placeholderText">
+         <string>[ 0x55 read:10 0x56]</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bTransact">
+        <property name="text">
+         <string>Transaction</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>bConnect</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>I2C</receiver>
+   <slot>connect_i2c(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>546</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>309</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bScan</sender>
+   <signal>clicked()</signal>
+   <receiver>I2C</receiver>
+   <slot>scan_cmd()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>55</x>
+     <y>223</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>309</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bRead</sender>
+   <signal>clicked()</signal>
+   <receiver>I2C</receiver>
+   <slot>read_cmd()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>226</x>
+     <y>223</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>309</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bWrite</sender>
+   <signal>clicked()</signal>
+   <receiver>I2C</receiver>
+   <slot>write_cmd()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>437</x>
+     <y>223</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>309</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bTransact</sender>
+   <signal>clicked()</signal>
+   <receiver>I2C</receiver>
+   <slot>transact_cmd()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>563</x>
+     <y>270</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>309</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bStartStop</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>I2C</receiver>
+   <slot>startstop(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>141</x>
+     <y>223</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>309</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>connect_i2c(bool)</slot>
+  <slot>scan_cmd()</slot>
+  <slot>read_cmd()</slot>
+  <slot>write_cmd()</slot>
+  <slot>transact_cmd()</slot>
+  <slot>startstop(bool)</slot>
+ </slots>
+</ui>

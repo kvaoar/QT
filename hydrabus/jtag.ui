@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>JTAG</class>
+ <widget class="QWidget" name="JTAG">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>888</width>
+    <height>393</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QScrollArea" name="sHelp">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>857</width>
+        <height>682</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>JTAG mode
+   device         JTAG device (1)
+   pull           GPIO pull (up/down/floating)
+   msb-first      Send/receive MSB first
+   lsb-first      Send/receive LSB first
+
+   show           Show JTAG parameters
+   device         JTAG device (1)
+   pull           GPIO pull (up/down/floating)
+   msb-first      Send/receive MSB first
+   lsb-first      Send/receive LSB first
+   read           Read byte (repeat with :&lt;num&gt;)
+   write          Write byte (repeat with :&lt;num&gt;)
+   frequency      Bus frequency
+   &lt;integer&gt;      Write byte (repeat with :&lt;num&gt;)
+   &lt;string&gt;       Write string
+   tck            Set TCK pin number x for PBx
+   tms            Set TMS pin number x for PBx
+   tdi            Set TDI pin number x for PBx
+   tdo            Set TDO pin number x for PBx
+   brute          Bruteforce JTAG pins on x pins starting from PB0
+   bypass         Query number of devices in the JTAG chain using BYPASS mode
+   idcode         Scan for IDCODEs in the JTAG chain
+   openocd        Get into OpenOCD mode
+   ^              Send one clock tick
+   /              Toggle clock level high
+                 Toggle clock level low
+   -              Toggle TDI high
+   _              Toggle TDI low
+   [              Toggle TMS high
+   ]              Toggle TMS low
+   !              Read bit with clock
+   .              Read bit without clock
+   &amp;              Delay 1 usec (repeat with :&lt;num&gt;)
+   %              Delay 1 msec (repeat with :&lt;num&gt;)
+   ~              Write a random byte (repeat with :&lt;num&gt;)
+   exit           Exit JTAG mode</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="fConnect">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>GPIO pull</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cPull">
+        <item>
+         <property name="text">
+          <string>floating</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>up</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>down</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>MSB/LSB</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cMSB">
+        <item>
+         <property name="text">
+          <string>msb-first</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>lsb-first</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>392</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bConnect">
+        <property name="text">
+         <string>CONNECT</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="fCmd">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="bPin">
+        <property name="text">
+         <string>PIN</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bBypass">
+        <property name="text">
+         <string>BYPASS</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bIdCode">
+        <property name="text">
+         <string>IDCODE</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bCmd">
+        <property name="text">
+         <string>CMD</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="eCmd">
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bStateMachine">
+        <property name="text">
+         <string>STATE MACHINE</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

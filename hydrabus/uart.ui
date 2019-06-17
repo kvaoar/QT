@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UART</class>
+ <widget class="QWidget" name="UART">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>538</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>620</width>
+        <height>430</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>  Configuration: uart [device (1/2)&gt; [speed (value in bauds)] [parity (none/even/odd)] [stop-bits (1/2)]
+Interaction: &lt;read/write (value:repeat)&gt;
+   device         UART device (1/2)
+   speed          Bus bitrate
+   parity         Parity (none/even/odd)
+   stop-bits      Stop bits (1/2)
+
+   show           Show UART parameters
+   device         UART device (1/2)
+   speed          Bus bitrate
+   parity         Parity (none/even/odd)
+   stop-bits      Stop bits (1/2)
+   read           Read byte (repeat with :&lt;num&gt;)
+   hd             Read byte (repeat with :&lt;num&gt;) and print hexdump
+   write          Write byte (repeat with :&lt;num&gt;)
+   &lt;integer&gt;      Write byte (repeat with :&lt;num&gt;)
+   &lt;string&gt;       Write string
+   &amp;              Delay 1 usec (repeat with :&lt;num&gt;)
+   %              Delay 1 msec (repeat with :&lt;num&gt;)
+   ~              Write a random byte (repeat with :&lt;num&gt;)
+   bridge         UART bridge mode
+   exit           Exit UART mode
+</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QComboBox" name="cDev">
+        <item>
+         <property name="text">
+          <string>device 1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>device 2</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cSpeed">
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>115200</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>9600</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cParity">
+        <item>
+         <property name="text">
+          <string>none</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>even</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>odd</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cStopbit">
+        <item>
+         <property name="text">
+          <string>stop-bits 1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>stop-bits 2</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bConnect">
+        <property name="text">
+         <string>CONNECT</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_2" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="bPinout">
+        <property name="text">
+         <string>PIN</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="eWrite"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bWrite">
+        <property name="text">
+         <string>WRITE</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="eRead"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="bRead">
+        <property name="text">
+         <string>READ</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
